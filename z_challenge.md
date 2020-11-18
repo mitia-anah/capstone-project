@@ -55,6 +55,7 @@ Logic to follow:
 Remember to make it so clicking the filled heart icon ALSO runs the toggleFavorite function!
 Filled heart icon:
 <i className="ri-heart-fill favorite"></i>
+
 # Challenge
 Add propTypes to the Image component
 1. className should be a string
@@ -66,3 +67,36 @@ Setup context to manage items in an array called `cartItems`. This will be an ar
 1. Add the `cartItems` state to context. (Array)
 2. Add function to add an image to the cart. (Takes the full image object as parameter)
 3. Make it so clicking the plus icon on the image adds the item to the cart. (Console.log the cart items array to see that it's working)
+# Challenge
+Change the plus icon to a full shopping cart icon when an image is already in the cart. This should display whether the image is being hovered or not (like the favorite icon).
+Icon to use when item already in cart:
+<i className="ri-shopping-cart-fill cart"></i>
+Hints: 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+https://stackoverflow.com/a/8217584
+
+# Challenge
+Make it so clicking the little shopping cart icon on the image removes the item from the cart
+# Challenge
+Change the cart icon in the header to display the full cart icon if there are any items in the cart
+Full class name to use WHEN ITEMS IN CART:
+"ri-shopping-cart-fill ri-fw ri-2x"
+Full class name to use WHEN CART IS EMPTY:
+"ri-shopping-cart-line ri-fw ri-2x"
+# Challenge
+Make it so clicking the trash icon on the Cart page removes that item from the cart
+# Challenge
+Calculate the total cost of the items in the cart and display it on the Cart page
+1. Usually the item in the database will have it's own cost saved, but we're assuming every item we sell costs $5.99, so you can just hard code that cost in
+2. To very easily display the total cost in US dollars (or whatever currency you want), use the following:
+`<number>.toLocaleString("en-US", {style: "currency", currency: "USD"})`
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
+
+# Challenge
+Let our user place their order!
+Clicking the "Place Order" button should:
+1. Change the text to "Ordering..."
+2. Timeout for 3 seconds (to simulate an order being placed)
+3. Log "Order placed!" to the console
+4. Empty out the cart
