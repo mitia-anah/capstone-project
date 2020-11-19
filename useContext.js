@@ -7,16 +7,43 @@ function ContextProvider({ children }) {
     const [cartItems, setCartItems] = useState([])
     console.log(cartItems);
 
-    const getPhotos = async (url) => {
-        const response = await fetch(url)
-        const data = await response.json()
-        setAllPhotos(data);
-        // console.log(data);
-    }
 
     useEffect(() => {
         getPhotos(endPoint)
+        initCartItems()
     }, [])
+
+    // *** Initialize the data ***
+    async function getPhotos(url) {
+        // is there something with the string 'allPhotos' inside localStorage
+        const lsAllPhotos = JSON.parse(localStorage.getItem('allPhotos'));
+        if (lsAllPhotos) {
+            // set the local storage value to state
+            setAllPhotos(lsAllPhotos);
+        } else {
+            console.log('nothing in ls, we go and fetch the data we need');
+            const response = await fetch(url);
+            const data = await response.json();
+            setAllPhotos(data);
+        }
+    }
+    function initCartItems() {
+        const lsCartItems = JSON.parse(localStorage.getItem('cartItems'));
+        if (lsCartItems) {
+            setCartItems(lsCartItems);
+        }
+    }
+    // *** synchronization of the data with LS ***
+    useEffect(() => {
+        if (allPhotos.length > 0) {
+            localStorage.setItem('allPhotos', JSON.stringify(allPhotos));
+        }
+    }, [allPhotos]);
+    useEffect(() => {
+        if (cartItems.length > 0) {
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        }
+    }, [cartItems]);
 
     function toggleFavorite(id) {
         const newPhotosArray = allPhotos.map(photo => {
@@ -47,17 +74,15 @@ function ContextProvider({ children }) {
         setCartItems(prevItem => [...prevItem, photo])
     }
 
-    function placeOrder() {
+    function emptyCard() {
+        console.log('Order placed!');
         setTimeout(() => {
-            console.log('Order placed!');
+            setCartItems([])
         }, 3000)
     }
 
-
-
-
     return (
-        <Context.Provider value={{ allPhotos, toggleFavorite, cartItems, addToCart, removeItems, placeOrder }}>
+        <Context.Provider value={{ allPhotos, toggleFavorite, cartItems, addToCart, removeItems, emptyCard }}>
             {children}
         </Context.Provider>
     )
